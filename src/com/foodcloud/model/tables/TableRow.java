@@ -1,9 +1,6 @@
 package com.foodcloud.model.tables;
 
-import com.foodcloud.model.pages.Page;
-import com.foodcloud.test.server.FCTestNavigator;
-
-public class TableRow<R> {
+public class TableRow {
 
 	private String id;
 	private String icon;

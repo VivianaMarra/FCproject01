@@ -1,7 +1,5 @@
 package com.foodcloud.model.pages;
 
-import org.openqa.selenium.WebDriver;
-
 import com.foodcloud.model.dialogs.InputTextField;
 import com.foodcloud.model.dialogs.SelectField;
 import com.foodcloud.test.server.FCTestNavigator;

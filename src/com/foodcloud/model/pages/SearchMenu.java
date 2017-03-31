@@ -1,14 +1,9 @@
 package com.foodcloud.model.pages;
 
 import java.util.HashMap;
-import java.util.List;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-
 import com.foodcloud.model.dialogs.DialogField;
-import com.foodcloud.model.dialogs.InputTextField;
 import com.foodcloud.test.server.FCTestNavigator;
 import com.foodcloud.test.server.FCTestServer;
 
@@ -29,7 +24,7 @@ public class SearchMenu {
 		this.nav = navigator;
 		this.server = navigator.getServer();
 		this.driver = navigator.getDriver();
-		fields = new HashMap();
+		fields = new HashMap<String, DialogField>();
 	}
 
 	

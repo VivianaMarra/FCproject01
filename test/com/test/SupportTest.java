@@ -1,13 +1,12 @@
 package com.test;
 
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeClass;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
 import java.io.FileNotFoundException;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 
 import com.foodcloud.model.pages.DashboardPage;
 import com.foodcloud.model.pages.LoginPage;
@@ -123,6 +122,7 @@ public class SupportTest {
 	// ul.uib-datepicker-popup
 	}
 
+	@AfterMethod
 	@AfterClass	
 	public void tearDown(){
 		server.getDriver().close();

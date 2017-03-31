@@ -43,7 +43,7 @@ public class ResultTable {
 
 			List<WebElement> elements = nav.getDriver().findElements(nav.getServer().getLocatorType(genericRowLocator));
 			int index=1;
-			for (Iterator iterator = elements.iterator(); iterator.hasNext();) {
+			for (Iterator<WebElement> iterator = elements.iterator(); iterator.hasNext();) {
 				WebElement webEl = (WebElement) iterator.next();
 				
 				String baseLocator = genericRowLocator + "[" + index + "]";

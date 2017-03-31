@@ -1,12 +1,20 @@
 package com.foodcloud.model.pages;
 
-import org.openqa.selenium.WebDriver;
-
 import com.foodcloud.model.dialogs.DateField;
 import com.foodcloud.model.dialogs.InputTextField;
-import com.foodcloud.model.dialogs.SelectField;
 import com.foodcloud.test.server.FCTestNavigator;
 
+/**
+ * This class is used in the auto tests to map CollectionPage on Copia Desktop.
+ * It should reflect all the possible functionalities available. 
+ * Functionality list:
+ * 					Search for Collection 
+ * 					View List of Collections
+ * 
+ * TODO: Define behaviour when user CANNOT access to this page 
+ * @author Viviana
+ *
+ */
 public class CollectionsPage extends SearchPage  {
 
 	protected SearchMenu searchMenu;

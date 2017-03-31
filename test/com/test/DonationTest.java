@@ -1,20 +1,16 @@
 package com.test;
 
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeClass;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
 import java.io.FileNotFoundException;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-
 import com.foodcloud.model.pages.DashboardPage;
 import com.foodcloud.model.pages.DonationsPage;
 import com.foodcloud.model.pages.LoginPage;
 import com.foodcloud.model.pages.OptionMenu.MENU_ITEMS;
-import com.foodcloud.model.pages.SearchMenu;
-import com.foodcloud.model.pages.SupportTicketsPage;
 import com.foodcloud.model.tables.ResultTable;
 import com.foodcloud.test.server.FCTestNavigator;
 import com.foodcloud.test.server.FCTestServer;
@@ -118,6 +114,7 @@ public class DonationTest {
 	}
 	
 	
+	@AfterMethod
 	@AfterClass	
 	public void tearDown(){
 		server.getDriver().close();
