@@ -83,7 +83,6 @@ public class LoginMobileTest {
 		Assert.assertTrue(isPagePresent, "Error: Support Tickets Page not displayed as expected");
 	}
 
-	@AfterMethod
 	@AfterClass	
 	public void tearDown(){
 		server.getDriver().close();

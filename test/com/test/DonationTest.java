@@ -114,7 +114,6 @@ public class DonationTest {
 	}
 	
 	
-	@AfterMethod
 	@AfterClass	
 	public void tearDown(){
 		server.getDriver().close();

@@ -122,7 +122,7 @@ public class SupportTest {
 	// ul.uib-datepicker-popup
 	}
 
-	@AfterMethod
+
 	@AfterClass	
 	public void tearDown(){
 		server.getDriver().close();
