@@ -34,5 +34,13 @@ public class DonationsPage extends SearchPage  {
 		return new ResultTable(nav, TABLE_LOCATOR, this);
 		
 	}
+
+	/**
+	 * temporarily adding open method (it is basically waiting for the table to load)
+	 */
+	public void open() {
+		// TODO Auto-generated method stub
+		
+	}
 		
 }

@@ -1,5 +1,7 @@
 package com.foodcloud.test.server;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -16,8 +18,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class FCTestServer {
 
 	private WebDriver driver;
-	public static int WAIT_TIMEOUT = 20;
-	private static String HIDDEN_SPINNER_LOCATOR = "css=i.fa-spin.ng-hide";
+	public static int WAIT_TIMEOUT = 120;
+	private static String HIDDEN_SPINNER_LOCATOR = "css=th[class='ng-scope'] i.fa-spinner.ng-hide , th[class='ng-scope'] i.fa-refresh";
+//	private static String VISIBLE_SPINNER_LOCATOR = "css=i.fa-refresh";
 	
 	public FCTestServer(WebDriver webDriver) {
 		this.driver = webDriver;
@@ -26,17 +29,59 @@ public class FCTestServer {
 	/**
 	 * waits for an object or element on a page until it displays (or generates a timeout exception)  
 	 * implements Explicit wait
-	 * @param elementLocator
+	 * @param  By object representing the element locator 
 	 * @return expectedWebElement on page 
 	 */
 	public WebElement waitForElement(By elementLocator) {
-	// Move WebDriver as internal variable 	 
+
+		System.out.println("Waiting for webelement with locator:" + elementLocator);
+		
 		WebElement expectedWebElement = 
 		new WebDriverWait(driver, WAIT_TIMEOUT).until(ExpectedConditions.presenceOfElementLocated(elementLocator));
+	  
+
+		
+		return expectedWebElement;
+	}
+
+	/**
+	 * waits for an object or element on a page, identified with a String locator, until it displays (or generates a timeout exception)  
+	 * implements Explicit wait
+	 * @param  String object representing the element locator 
+	 * @return expectedWebElement on page 
+	 */
+	public WebElement waitForElement(String elementLocator) {
+		WebElement expectedWebElement = 
+		new WebDriverWait(driver, WAIT_TIMEOUT).until(
+				ExpectedConditions.presenceOfElementLocated(this.getLocatorType(elementLocator)));
 	  
 		return expectedWebElement;
 	}
 
+	
+	
+	public WebElement waitForElement(String parentLocator, String elementLocator) {
+		WebElement expectedWebElement = null;
+		
+		WebElement parentElement = 
+		new WebDriverWait(driver, WAIT_TIMEOUT).until(
+				ExpectedConditions.presenceOfElementLocated(this.getLocatorType(parentLocator)));
+
+		System.out.println("Parent element loaded");
+		
+		List<WebElement> childList = 
+				parentElement.findElements(this.getLocatorType(elementLocator));
+		
+		if(!childList.isEmpty()){
+			expectedWebElement = childList.get(0);
+			
+			System.out.println("child element loaded");
+		}
+		
+		return expectedWebElement;
+	}
+
+	
 	/**
 	 * Types a text string in a field given the locator 
 	 * @param fieldLocator
@@ -53,7 +98,7 @@ public class FCTestServer {
 	public By getLocatorType(String locator){
 		By by = null;
 		
-		if(locator.contains("//")) {
+		if(locator.contains("//") || locator.contains("./")) {
 			by = By.xpath(locator);
 		}
 		else if(locator.contains("css=")) {
@@ -76,6 +121,11 @@ public class FCTestServer {
 		return driver;
 	}
 
+	/**
+	 * checks for the presence of an object or element on a page.   
+	 * @param elementLocator String representing the object locator
+	 * @return true if element present, false otherwise
+	 */
 	public boolean isElementPresent(String elementLocator) {
 		WebElement we = null;
 		try {
@@ -84,7 +134,7 @@ public class FCTestServer {
 		
 		}
 		catch (NoSuchElementException e) {
-			// Log exception e
+			//TODO: add  CAT -  Log exception e
 			return false;
 		} 
 		
@@ -96,6 +146,33 @@ public class FCTestServer {
 		}
 	}
 
+	
+	public boolean isElementPresent(String parentLocator, String childLocator) {
+		WebElement we = null;
+		try {
+		
+			WebElement parent = driver.findElement(getLocatorType(parentLocator));		
+		
+			we = parent.findElement(getLocatorType(childLocator));
+		}
+		catch (NoSuchElementException e) {
+			//TODO: add  CAT -  Log exception e
+			return false;
+		} 
+		
+		if(we != null){
+			return true;
+		}
+		else {		
+			return false;
+		}
+	}
+
+	
+	/**
+	 * opens a web page using the given URL.
+	 * @param targetUrl String representing URL
+	 */
 	public void openURL(String targetUrl) {
 		driver.get(targetUrl);
 		
@@ -114,10 +191,65 @@ public class FCTestServer {
 	
 	public WebElement waitForSpinnerToDisappear() {
 					
-		WebElement expectedWebElement = 
-		new WebDriverWait(driver, WAIT_TIMEOUT).until(ExpectedConditions.presenceOfElementLocated(this.getLocatorType(HIDDEN_SPINNER_LOCATOR)));
-	  
+		//debugging
+		String locator = "css=i[ng-show='isLoading']";		
+		String locator2 = "css=i[ng-show='hideOrgName']";		
+//		
+//		String object1Class = driver.findElement(getLocatorType(locator)).getAttribute("class");
+//		String object2Class = driver.findElement(getLocatorType(locator2)).getAttribute("class");
+//		System.out.println("before waiting Visible");
+//		System.out.println("object 1 class" + object1Class );
+//		System.out.println("object 2 class" + object2Class );
+//
+//		
+//		System.out.println("waiting for the spinner to be visible");
+//
+//		WebElement expectedWebElement = 
+//		new WebDriverWait(driver, WAIT_TIMEOUT).until(
+//				
+//				ExpectedConditions.presenceOfElementLocated(this.getLocatorType(VISIBLE_SPINNER_LOCATOR))
+//				);
+//
+		
+		System.out.println("waiting for the spinner to be invisible");
+		//debugging
+		String object3Class = driver.findElement(getLocatorType(locator)).getAttribute("class");
+		String object4Class = driver.findElement(getLocatorType(locator2)).getAttribute("class");
+		System.out.println("after waiting Visible");
+		System.out.println("object 1 class" + object3Class );
+		System.out.println("object 2 class" + object4Class );
+		
+		System.out.println("waiting for the spinner to be invisible");
+
+		WebElement expectedWebElement = new WebDriverWait(driver, WAIT_TIMEOUT).until(
+				
+				ExpectedConditions.presenceOfElementLocated(this.getLocatorType(HIDDEN_SPINNER_LOCATOR))
+				);
+		
+		
+		//debugging
+		String object5Class = driver.findElement(getLocatorType(locator)).getAttribute("class");
+		String object6Class = driver.findElement(getLocatorType(locator2)).getAttribute("class");
+		System.out.println("after waiting invisible");
+		System.out.println("object 1 class" + object5Class );
+		System.out.println("object 2 class" + object6Class );
+
+
 		return expectedWebElement;
+
+	}
+
+	/**
+	 * waits for an action to be completed.
+	 * (work in progress: currently implemented as thread sleep)
+	 */
+	public void waitForActionToComplete() {
+		try {
+			Thread.sleep( WAIT_TIMEOUT * 10);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 	

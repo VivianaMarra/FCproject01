@@ -13,7 +13,8 @@ public class SearchMenu {
 	private String magnifierMinusLocator = "//div[@class='header']/descendant::i[contains(@class, 'fa-search-minus')][not(contains(@class, 'ng-hide'))]";
 
 	private String hiddenSearchMenuLocator = "//div[div[@class='header']]/table/thead[@class='ng-hide']";
-	private String visibleSearchMenuLocator ="//div[div[@class='header']]/table/thead[not(@class='ng-hide')]";
+	private String visibleSearchMenuLocator = "//table[@id]/thead[not(@class='ng-hide')]";
+			//"//div[div[@class='header']]/table/thead[not(@class='ng-hide')]";
 	
 	private WebDriver driver;
 	private HashMap<String, DialogField> fields;

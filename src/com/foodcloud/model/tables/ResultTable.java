@@ -15,33 +15,66 @@ public class ResultTable {
 
 	private String tableLocator;
 	private FCTestNavigator nav;
+	private FCTestServer server;
 	private List<TableRow> rowElements;
 	private Page currentPage;
-	private String genericRowLocator = "//tbody[@id='don-data']/tr";
+	private String tableBodyLocator = "./descendant::tbody[@id='don-data']";
+	private String tableRowLocator =	tableBodyLocator + "/tr";
+	private String genericRowLocator = "./descendant::tbody/tr";
 	
+	/**
+	 * creates a new resultTable object. Expecting Xpath expression as table locator 
+	 * @param navigator FoodCloudTestNavigator instance
+	 * @param locator String representing Xpath locator
+	 * @param page current page (should be Result page but also some read only page have ResultTable components)
+	 */
 	public ResultTable(FCTestNavigator navigator, String locator, Page page) {
 		this.tableLocator = locator;
 		this.nav = navigator;	
+		this.server = navigator.getServer();	
 		this.rowElements= new ArrayList<TableRow>();
 		this.currentPage = page; 
 	}
 	
-	//is table Empty
-	// empty = false 
+	/**
+	 * checks if the results table is empty or not.
+	 * @return true if empty, false otherwise
+	 */
 	public boolean isEmpty() {
-		// table locator??
-		if (nav.getServer().isElementPresent(genericRowLocator)) {
+		//checking 
+		if (server.isElementPresent(tableLocator,tableRowLocator)) {
 			return false;
 		} else {
 			return true;
 		}
 	}
 
-	public ResultTable read() {
-			
-		if(!isEmpty()) {
+//	
+//	public ResultTable load() {
+//		String genericTableLocator = genericRowLocator + " | " + tableBodyLocator;
+//				
+//		server.waitForElement(genericTableLocator);
+//		WebElement el = nav.getDriver().findElement(server.getLocatorType(tableLocator));
+//		el.findElement(server.getLocatorType(genericTableLocator));
+//		
+//	//	server.isElementPresent(tableLocator, tableBodyLocator);
+//		
+//		return this;
+//	}
 
-			List<WebElement> elements = nav.getDriver().findElements(nav.getServer().getLocatorType(genericRowLocator));
+	public ResultTable load() {
+		server.waitForElement(tableLocator, tableBodyLocator);
+
+		server.isElementPresent(tableLocator,tableRowLocator);
+		
+		return this;
+	}
+	
+	
+	public ResultTable read() {			
+
+		if(!isEmpty()) {
+			List<WebElement> elements = nav.getDriver().findElements(server.getLocatorType(genericRowLocator));
 			int index=1;
 			for (Iterator<WebElement> iterator = elements.iterator(); iterator.hasNext();) {
 				WebElement webEl = (WebElement) iterator.next();
@@ -69,7 +102,7 @@ public class ResultTable {
 	}
 
 	public FCTestServer getServer() {
-		return this.nav.getServer();
+		return this.server;
 		
 	}
 
