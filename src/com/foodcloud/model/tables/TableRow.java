@@ -10,21 +10,14 @@ public class TableRow {
 	private String donor;
 	private String donor_codeId;
 	private String charity;
-	private String donationWindow;
-	private String statusButton;
-	private String interactionDropDown; //other object 
+	private String collectionWindow;
+	private String status;
+	private String dropDownButton; //other object 
 	
 	
 	private String donorCodeIdLocator ="id=don.donorStoreId";
 	private ResultTable baseTable;
-	//locators??
 
-//	
-//	public TableRow(FCTestNavigator nav_driver, Page page) {
-//	}
-
-//	public TableRow(FCTestNavigator nav, String date2, String time, String infoLocator) {
-	
 	public TableRow(ResultTable table, String date2, String time, String infoLocator) {
 		setBaseTable(table);
 		setDate(date2);
@@ -33,14 +26,78 @@ public class TableRow {
 		
 	}
 
-//	public String getId() {
-//		return id;
-//	}
-//
-//	public String getIcon() {
-//		return icon;
-//	}
+	public TableRow(ResultTable table,  String timeLineLocator, String creationDate, String creationTime, String infoLocator, String donorName,
+			String donorNumber, String charityName, String collectionTimeWindow, String currentStatus, String controlLocator) {
+		
+		setBaseTable(table);
+		setIconLocator(timeLineLocator);
+		setDate(creationDate);
+		setTime(creationTime);
+		setInfo(infoLocator);
+		setDonor(donorName);
+		setDonorCode(donorNumber); 
+		setCharity(charityName);
+		setCollection(collectionTimeWindow); 
+		setStatus(currentStatus);
+		setDropDownButton(controlLocator);
 
+	}
+
+	private void setDropDownButton(String controlLocator) {
+		this.dropDownButton = controlLocator;		
+	}
+
+	private void setStatus(String currentStatus) {
+		this.status = currentStatus;
+		
+	}
+
+	private void setCollection(String collectionTimeWindow) {
+		this.collectionWindow = collectionTimeWindow;			
+	}
+
+	private void setCharity(String charityName) {
+		this.charity = charityName;	
+	}
+
+	private void setDonorCode(String donorNumber) {
+		this.donor_codeId = donorNumber;			
+	}
+
+	private void setDonor(String donorName) {
+		this.donor = donorName;	
+	}
+
+	private void setInfo(String infoLocator) {
+		this.info = infoLocator;	
+	}
+
+	private void setTime(String time) {
+		this.time = time;
+	}
+
+	private void setDate(String date2) {
+		this.date = date2;		
+	}
+
+	private void setBaseTable(ResultTable tableOrigin) {
+		this.baseTable= tableOrigin;
+		tableOrigin.getServer();
+	}
+
+	private void setIconLocator(String iconLocator) {
+		this.icon = iconLocator;		
+	}	
+	
+	public String getStatus() {
+		return status;
+	}
+
+	public String getDropDownButton() {
+		return dropDownButton;
+	}
+	
+	
 	public String getDate() {
 		return date;
 	}
@@ -65,39 +122,16 @@ public class TableRow {
 		return charity;
 	}
 
-	public String getDonationWindow() {
-		return donationWindow;
+	public String getCollectionWindow() {
+		return collectionWindow;
 	}
-
-//	public String getStatusButton() {
-//		return statusButton;
-//	}
-//
-//	public String getInteractionDropDown() {
-//		return interactionDropDown;
-//	}
 
 	public ResultTable getBaseTable() {
 		return baseTable;
 	}
 
-	private void setInfo(String infoLocator) {
-		this.info = infoLocator;	
-	}
+	public String getIconLocator() {
+		return this.icon;		
+	}	
 
-	private void setTime(String time) {
-		this.time = time;
-	}
-
-	private void setDate(String date2) {
-		this.date = date2;		
-	}
-
-	private void setBaseTable(ResultTable tableOrigin) {
-		this.baseTable= tableOrigin;
-		tableOrigin.getServer();
-	}
-
-	// TableItem GetRow??
-	
 }

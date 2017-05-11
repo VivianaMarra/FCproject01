@@ -14,7 +14,8 @@ public class SearchMenu {
 
 	private String hiddenSearchMenuLocator = "//div[div[@class='header']]/table/thead[@class='ng-hide']";
 	private String visibleSearchMenuLocator = "//table[@id]/thead[not(@class='ng-hide')]";
-			//"//div[div[@class='header']]/table/thead[not(@class='ng-hide')]";
+	private String clearFilterLocator = "//thead[not(@class='ng-hide')]/descendant::div[@title='Clear filters']/descendant::i[contains(@class, 'fa-filter')]";
+
 	
 	private WebDriver driver;
 	private HashMap<String, DialogField> fields;
@@ -35,8 +36,6 @@ public class SearchMenu {
 		
 			server.click(magnifierLocator);
 		
-	//	driver.findElement(By.xpath(magnifierLocator)).click();
-		
 			server.waitForElement(By.xpath(visibleSearchMenuLocator));
 		}
 		return this;
@@ -46,8 +45,6 @@ public class SearchMenu {
 	public SearchMenu close() {
 		if(server.isElementPresent(magnifierMinusLocator)){ 
 			server.click(magnifierMinusLocator);
-			//driver.findElement(By.xpath(magnifierMinusLocator)).click();
-		
 			server.waitForElement(By.xpath(hiddenSearchMenuLocator));	
 		}
 		return this;
@@ -67,6 +64,21 @@ public class SearchMenu {
 	
 	public void cleanField(String fieldName) {
 		fields.get(fieldName).setField("");
+	}
+
+
+	/**
+	 * clicks on the search filter clear button.
+	 * @return this object
+	 */
+	public SearchMenu clear() {
+		if(server.isElementPresent(clearFilterLocator )) {
+			
+			server.click(clearFilterLocator);
+				
+			server.waitForElement(By.xpath(visibleSearchMenuLocator));
+		}
+		return this;
 	}
 
 }

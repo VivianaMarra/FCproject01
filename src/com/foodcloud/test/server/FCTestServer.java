@@ -245,12 +245,32 @@ public class FCTestServer {
 	 */
 	public void waitForActionToComplete() {
 		try {
-			Thread.sleep( WAIT_TIMEOUT * 10);
+			System.out.println("waiting to complete");
+			
+			Thread.sleep( WAIT_TIMEOUT * 100);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 	}
+	
+	
+	public void select(String path, String value) {
+
+		WebElement we = getDriver().findElement(this.getLocatorType(path));
+				
+		we.sendKeys(value);
+	
+	}
+
+	public void checkbox(String currentLocator, boolean setCheckbox) {
+
+		if(setCheckbox) {
+			this.click(currentLocator);
+		} 
+		// add logic when 
+	}
+	
 	
 }
