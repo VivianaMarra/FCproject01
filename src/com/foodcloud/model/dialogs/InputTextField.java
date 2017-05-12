@@ -18,4 +18,11 @@ public class InputTextField extends DialogField {
 		server.type(fieldLocator, value);		
 	}
 	
+	@Override
+	public String getField() {
+		String currentValue = driver.findElement(server.getLocatorType(fieldLocator)).getAttribute("value");
+		System.out.println("Reading attribute value from InputTextField" + currentValue);
+		 return currentValue;
+	}
+	
 }

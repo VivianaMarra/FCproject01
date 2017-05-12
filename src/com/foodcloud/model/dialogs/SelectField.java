@@ -15,7 +15,13 @@ public class SelectField extends DialogField {
 
 	@Override
 	public void setField(String value) {
-		server.type(fieldLocator, value);		
+		server.select(fieldLocator, value);	
 	}
+	
+	@Override
+	public String getField() {
+		 return server.getDriver().findElement(server.getLocatorType(fieldLocator)).getText();
+	}
+	
 	
 }

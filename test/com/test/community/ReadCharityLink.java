@@ -7,14 +7,16 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.foodcloud.community.model.pages.DataTriplet;
 import com.foodcloud.community.model.pages.OrganizationPage;
+import com.foodcloud.community.model.pages.Section;
 import com.foodcloud.test.server.FCTestNavigator;
 import com.foodcloud.test.server.FCTestServer;
 
-public class CreateCharityOrganization {
+public class ReadCharityLink {
 
 	FCTestServer server;
-	private String URL = "https://community.food.cloud";
+	private String URL = "https://community.food.cloud/#!/org?orgId=64&edit=true&form=charity-due-dil-form&section=food-types";
 	private FCTestNavigator nav; 
 	
 	@BeforeClass
@@ -26,28 +28,58 @@ public class CreateCharityOrganization {
 		
 	server.openURL(URL);
 
-	String titleLocator = "//h1[text()='Welcome to FoodCloud.']";
+	String titleLocator = "//div[contains(text(),'Edit organization')]";
 	
 	server.waitForElement(server.getLocatorType(titleLocator));				
 	} 
 
 
+	/*
+	 * High level 
+	 * check that in food types section there are:
+	 * Monthly spend 
+	 * Top Dairy
+	 * Top Meat
+	 * Top Non-perishable
+	 * Top Fruit&Veg
+	 * Top Other
+	 * */
+	
+	
+	//Read charity expected section 
+	// add a section list 
+	// in the section list , add 
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * Jira: 
 	 * User Story:
 	 * Given I am a new user, When I click on create new Organization, (then) I want to land on creation page 
+	 * PROBLEM: Organization page to be recreated ALL the time ( for each test)
 	 */
-	@Test ( priority = 1 )
-	public void verifyClickingOnNewOrg_OpensCreationPage() {
+	@Test ( priority = 1 ) // data source
+	public void verifyOpenLink_CanReadData() {
+		String expectedStoredData = "15000";
+				
+		
+//		List<DataTriplet> = 
 		
 		OrganizationPage orgPage = new OrganizationPage(nav);
-		orgPage.createNew();
+		orgPage.addSection(
+				new Section(nav,"Food Types",new DataTriplet("Monthly Spend" , DataTriplet.FieldType.TEXT, "css=input[name='food-spend']")));
 		
+		orgPage.getSection("Food Types").setField("Monthly Spend", expectedStoredData );
+	
 		server.waitForActionToComplete();
 
-		boolean isNewOrgPage = server.isElementPresent("//div[contains(text(), 'New organization')]");	
+		String actualStoredData = (String) orgPage.getSection("Food Types").getField("Monthly Spend");
 		
-		Assert.assertTrue(isNewOrgPage, "Error: New organization Page not displayed.");
+		Assert.assertEquals(actualStoredData, expectedStoredData, "Error: New value not displayed.");
 
 		} 
 
@@ -80,11 +112,9 @@ public class CreateCharityOrganization {
 	
 	@Test(priority = 3)
 	public void verifySelectCharity_UseTemplateAndContinue() {
-		//String today="20170512";
-		String today="20170501";
-				
+	
 		OrganizationPage orgPage = new OrganizationPage(nav);
-		orgPage.getCreateSection().setField(OrganizationPage.ORGANIZATION_NAME,"Test Charity 5 " + today);
+		orgPage.getCreateSection().setField(OrganizationPage.ORGANIZATION_NAME,"Test Charity 1");
 		orgPage.clickContinue();
 		
 		server.waitForActionToComplete();
@@ -133,19 +163,7 @@ public class CreateCharityOrganization {
 		server.type(branchRoleLocator, "Role 1");
 		
 		server.checkbox(currentFoodUseLocator, true);
-
-		String foodRedistributionLocator = "css=input[name='food-use-redist-parcels']";
-		String foodExternalProvisionLocator = "css=input[name='food-use-provide-own-use']";
-		String foodInternalProvisionLocator = "css=input[name='food-use-provide-in-house']";
-		String foodInternalCookingLocator = "css=input[name='food-use-cook-for-on-site']";
-		String foodExternalCookingLocator = "css=input[name='food-use-cook-for-external']";
-
-		server.checkbox(foodRedistributionLocator, true);
-		server.checkbox(foodExternalProvisionLocator, true);
-		server.checkbox(foodInternalProvisionLocator, true);
-		server.checkbox(foodInternalCookingLocator, true);
-		server.checkbox(foodExternalCookingLocator, true);
-				
+	
 		server.waitForActionToComplete();
 
 		server.click(buttonSaveEnabledLocator);

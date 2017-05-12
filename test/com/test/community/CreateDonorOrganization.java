@@ -11,7 +11,7 @@ import com.foodcloud.community.model.pages.OrganizationPage;
 import com.foodcloud.test.server.FCTestNavigator;
 import com.foodcloud.test.server.FCTestServer;
 
-public class CreateCharityOrganization {
+public class CreateDonorOrganization {
 
 	FCTestServer server;
 	private String URL = "https://community.food.cloud";
@@ -57,14 +57,14 @@ public class CreateCharityOrganization {
 	 * Given I am an admin user, When I select on organization type and choose charity, (then) I want select a charity template 
 	 */
 	@Test ( priority = 2 )
-	public void verifySelectCharity_SelectTemplate() {
+	public void verifySelectDonor_SelectTemplate() {
 		String inputNameLocator = "css=section#edit-org:not([class='ng-hide']) input[ng-model='org.name']";
 		String buttonContinueDisabledLocator = "css=section#edit-org:not([class='ng-hide']) button[disabled='disabled'][ng-click='createOrgSubmit()']";
 		
 		
 		OrganizationPage orgPage = new OrganizationPage(nav);
-		orgPage.getTemplateSection().setField(OrganizationPage.ORGANIZATION_TYPE_NAME,"Charity");
-		orgPage.getTemplateSection().setField(OrganizationPage.ORGANIZATION_TEMPLATE_NAME,"Template Charity");
+		orgPage.getTemplateSection().setField(OrganizationPage.ORGANIZATION_TYPE_NAME,"Donor");
+		orgPage.getTemplateSection().setField(OrganizationPage.ORGANIZATION_TEMPLATE_NAME,"Template Donor");
 
 		server.waitForActionToComplete();
 
@@ -79,12 +79,10 @@ public class CreateCharityOrganization {
 	
 	
 	@Test(priority = 3)
-	public void verifySelectCharity_UseTemplateAndContinue() {
-		//String today="20170512";
-		String today="20170501";
-				
+	public void verifySelectDonor_UseTemplateAndContinue() {
+	
 		OrganizationPage orgPage = new OrganizationPage(nav);
-		orgPage.getCreateSection().setField(OrganizationPage.ORGANIZATION_NAME,"Test Charity 5 " + today);
+		orgPage.getCreateSection().setField(OrganizationPage.ORGANIZATION_NAME,"Test Donor 1");
 		orgPage.clickContinue();
 		
 		server.waitForActionToComplete();
@@ -98,13 +96,11 @@ public class CreateCharityOrganization {
 	
 	
 	@Test(priority = 4)
-	public void charityTemplate_FillMandatoryFields() {
+	public void donorTemplate_FillMandatoryFields() {
 
 		String buttonSaveEnabledLocator = "css=button[ng-click='editOrgSubmit()']";
 
-		String descriptionLocator = "css=textarea[name='description']";
 		String postCodeLocator = "css=input[name='addr-code']";
-
 		String addressLocator = "css=input[name='address']";
 		String townLocator = "css=input[name='town']";
 
@@ -116,10 +112,6 @@ public class CreateCharityOrganization {
 
 		String branchManagerLocator = "css=input[name='branch-name']";
 		String branchRoleLocator = "css=input[name='branch-role']";
-
-		String currentFoodUseLocator = "css=input[name='existing-food-user']";
-		
-		server.type(descriptionLocator, "Test Charity 1 description");
 		server.type(postCodeLocator, "4444");
 		server.type(addressLocator, "Street 1");
 		server.type(townLocator, "Town 1");
@@ -131,21 +123,7 @@ public class CreateCharityOrganization {
 
 		server.type(branchManagerLocator, "Manager 1");
 		server.type(branchRoleLocator, "Role 1");
-		
-		server.checkbox(currentFoodUseLocator, true);
-
-		String foodRedistributionLocator = "css=input[name='food-use-redist-parcels']";
-		String foodExternalProvisionLocator = "css=input[name='food-use-provide-own-use']";
-		String foodInternalProvisionLocator = "css=input[name='food-use-provide-in-house']";
-		String foodInternalCookingLocator = "css=input[name='food-use-cook-for-on-site']";
-		String foodExternalCookingLocator = "css=input[name='food-use-cook-for-external']";
-
-		server.checkbox(foodRedistributionLocator, true);
-		server.checkbox(foodExternalProvisionLocator, true);
-		server.checkbox(foodInternalProvisionLocator, true);
-		server.checkbox(foodInternalCookingLocator, true);
-		server.checkbox(foodExternalCookingLocator, true);
-				
+	
 		server.waitForActionToComplete();
 
 		server.click(buttonSaveEnabledLocator);
