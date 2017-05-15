@@ -1,5 +1,8 @@
 package com.foodcloud.community.model.pages;
 
+import java.util.Iterator;
+import java.util.List;
+
 import com.foodcloud.model.dialogs.InputTextField;
 import com.foodcloud.model.dialogs.SelectField;
 import com.foodcloud.model.pages.Menu;
@@ -24,15 +27,17 @@ public class Section extends Menu {
 //	}
 
 	/**
-	 * 
+	 * Creates a new section with a name and a list of fields
+	 * (Constructor)
 	 * @param navigator
 	 * @param name
-	 * @param data
+	 * @param list
 	 */
-	public Section(FCTestNavigator navigator, String name, DataTriplet data) {
+	public Section(FCTestNavigator navigator, String name, List<DataTriplet> fieldList) {
 		super(navigator);
 		this.sectionName = name;
-		addFieldList(data);
+		//addFieldData(data);
+		addFieldList(fieldList);
 	}
 
 	/**
@@ -45,13 +50,12 @@ public class Section extends Menu {
 	}
 
 	/**
-	 * 
-	 * @param data
-	 * @return
+	 * Add one field to the fields list.
+	 * Field has to be defined as: FieldName, Type and fieldLocator
+	 * @param data - DataTriplet object  
+	 * @return Section object (Updated) 
 	 */
-	public Section addFieldList(DataTriplet data) {
-		// List<DataTriplet> data){
-
+	public Section addFieldData(DataTriplet data) {
 		String fieldName = data.getName();
 
 		if (!fields.containsKey(fieldName)) {
@@ -74,4 +78,20 @@ public class Section extends Menu {
 		}
 		return this;
 	}
+
+	/**
+	 * Adds a list of fields to the Section 
+	 * @param dataList - List of DataTriplet objects representing fields
+	 * @return Section object (updated)
+	 */
+	public Section addFieldList(List<DataTriplet> dataList) {
+		for (Iterator iterator = dataList.iterator(); iterator.hasNext();) {
+			DataTriplet currentData = (DataTriplet) iterator.next();
+	
+			addFieldData(currentData);
+		}
+		
+		return this;		
+	}
+
 }
