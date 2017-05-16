@@ -30,6 +30,8 @@ public class OrganizationPage extends Page {
 	private String CREATE_NEW_BUTTON_LOCATOR = "//a[text()='New Organization']";
 	private String CONTINUE_ENABLED_LOCATOR = "css=section#edit-org:not([class='ng-hide']) button[ng-click='createOrgSubmit()']";
 
+	private String SAVE_ENABLED_LOCATOR = "css=button.btn-success";
+	
 	public OrganizationPage(FCTestNavigator nav) {
 		super(nav);
 		sections = new HashMap<String, Section>();
@@ -98,6 +100,13 @@ public class OrganizationPage extends Page {
 
 	public Section getSection(String sectionName) {		 
 		return sections.get(sectionName);
+	}
+
+	public OrganizationPage clickSave() {
+		server.click(SAVE_ENABLED_LOCATOR);
+
+		return this;
+
 	}
 
 }

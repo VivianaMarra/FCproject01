@@ -1,13 +1,17 @@
 package com.test.community;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.foodcloud.community.model.pages.DataTriplet;
 import com.foodcloud.community.model.pages.OrganizationPage;
+import com.foodcloud.community.model.pages.Section;
 import com.foodcloud.test.server.FCTestNavigator;
 import com.foodcloud.test.server.FCTestServer;
 
@@ -81,7 +85,7 @@ public class CreateCharityOrganization {
 	@Test(priority = 3)
 	public void verifySelectCharity_UseTemplateAndContinue() {
 		//String today="20170512";
-		String today="20170501";
+		String today="20170516";
 				
 		OrganizationPage orgPage = new OrganizationPage(nav);
 		orgPage.getCreateSection().setField(OrganizationPage.ORGANIZATION_NAME,"Test Charity 5 " + today);
@@ -100,52 +104,63 @@ public class CreateCharityOrganization {
 	@Test(priority = 4)
 	public void charityTemplate_FillMandatoryFields() {
 
+		List<DataTriplet> profileList = new ArrayList();
+		profileList.add(new DataTriplet("Description" , DataTriplet.FieldType.TEXT, "css=textarea[name='description']")); 
+		profileList.add(new DataTriplet("Website" , DataTriplet.FieldType.TEXT, "css=input[name='website']")); 
+		
+		List<DataTriplet> locationList = new ArrayList();		
+		locationList.add(new DataTriplet("Post Code" , DataTriplet.FieldType.TEXT, "css=input[name='addr-code']"));				
+		locationList.add(new DataTriplet("Address" , DataTriplet.FieldType.TEXT, "css=input[name='address']"));				
+		locationList.add(new DataTriplet("Town" , DataTriplet.FieldType.TEXT, "css=input[name='town']"));				
+		locationList.add(new DataTriplet("County" , DataTriplet.FieldType.TEXT, "css=input[name='county']"));				
+		locationList.add(new DataTriplet("Country" , DataTriplet.FieldType.TEXT, "css=input[name='country']"));				
+		
+
+		List<DataTriplet> contactList = new ArrayList();		
+		contactList.add(new DataTriplet("Branch Phone" , DataTriplet.FieldType.TEXT, "css=input[name='branch-phone']"));				
+		contactList.add(new DataTriplet("Branch Email" , DataTriplet.FieldType.TEXT, "css=input[name='branch-email']"));				
+		contactList.add(new DataTriplet("Branch Manager" , DataTriplet.FieldType.TEXT, "css=input[name='branch-name']"));				
+		contactList.add(new DataTriplet("Branch Role" , DataTriplet.FieldType.TEXT, "css=input[name='branch-role']"));				
+
+		List<DataTriplet> foodList = new ArrayList();		
+		foodList.add(new DataTriplet("Current Food Use" , DataTriplet.FieldType.CHECKBOX, "css=input[name='existing-food-user']"));				
+		foodList.add(new DataTriplet("Redistribution of food" , DataTriplet.FieldType.CHECKBOX, "css=input[name='food-use-redist-parcels']"));				
+		foodList.add(new DataTriplet("Provision of food externally" , DataTriplet.FieldType.CHECKBOX, "css=input[name='food-use-provide-own-use']"));				
+		foodList.add(new DataTriplet("Provision of food internally" , DataTriplet.FieldType.CHECKBOX, "css=input[name='food-use-provide-in-house']"));				
+		foodList.add(new DataTriplet("Cook and provide meals externally" , DataTriplet.FieldType.CHECKBOX, "css=input[name='food-use-cook-for-external']"));				
+		foodList.add(new DataTriplet("Cook and provide meals internally" , DataTriplet.FieldType.CHECKBOX, "css=input[name='food-use-cook-for-on-site']"));				
+
+		OrganizationPage orgPage = new OrganizationPage(nav);
+		orgPage.addSection(new Section(nav,"Profile",profileList));
+		orgPage.addSection(new Section(nav,"Location", locationList));
+		orgPage.addSection(new Section(nav,"Contact", contactList));
+		orgPage.addSection(new Section(nav,"FoodUse", foodList));
+
+		
 		String buttonSaveEnabledLocator = "css=button[ng-click='editOrgSubmit()']";
-
-		String descriptionLocator = "css=textarea[name='description']";
-		String postCodeLocator = "css=input[name='addr-code']";
-
-		String addressLocator = "css=input[name='address']";
-		String townLocator = "css=input[name='town']";
-
-		String countyLocator = "css=input[name='county']";
-		String countryLocator = "css=input[name='country']";
 		
-		String branchPhoneLocator = "css=input[name='branch-phone']";
-		String branchEmailLocator = "css=input[name='branch-email']";
+		orgPage.getSection("Profile").setField("Description", "20170516 Test Charity 1 description" );
 
-		String branchManagerLocator = "css=input[name='branch-name']";
-		String branchRoleLocator = "css=input[name='branch-role']";
+		orgPage.getSection("Location").setField("Post Code","PostCode 4444" );
+		orgPage.getSection("Location").setField("Address","Street 1");
+		orgPage.getSection("Location").setField("Town", "Town 1" );
+		orgPage.getSection("Location").setField("County","county 1" );
+		orgPage.getSection("Location").setField("Country", "country 1" );
 
-		String currentFoodUseLocator = "css=input[name='existing-food-user']";
+
+		orgPage.getSection("Contact").setField("Branch Phone", "+3538716400111");
+		orgPage.getSection("Contact").setField("Branch Email", "viviana@foodcloud.ie");
+		orgPage.getSection("Contact").setField("Branch Manager", "Manager 1");
+		orgPage.getSection("Contact").setField("Branch Role", "Role 1");
+
+		orgPage.getSection("FoodUse").setField("Current Food Use", "true");
+		orgPage.getSection("FoodUse").setField("Redistribution of food", "true");
+		orgPage.getSection("FoodUse").setField("Provision of food externally", "true");
+		orgPage.getSection("FoodUse").setField("Provision of food internally", "true");
 		
-		server.type(descriptionLocator, "Test Charity 1 description");
-		server.type(postCodeLocator, "4444");
-		server.type(addressLocator, "Street 1");
-		server.type(townLocator, "Town 1");
-		server.type(countyLocator, "county 1");
-		server.type(countryLocator, "country 1");
-		server.type(branchPhoneLocator, "+353871640017");
-		
-		server.type(branchEmailLocator, "viviana@foodcloud.ie");
+		orgPage.getSection("FoodUse").setField("Cook and provide meals externally", "true");
+		orgPage.getSection("FoodUse").setField("Cook and provide meals internally", "true");
 
-		server.type(branchManagerLocator, "Manager 1");
-		server.type(branchRoleLocator, "Role 1");
-		
-		server.checkbox(currentFoodUseLocator, true);
-
-		String foodRedistributionLocator = "css=input[name='food-use-redist-parcels']";
-		String foodExternalProvisionLocator = "css=input[name='food-use-provide-own-use']";
-		String foodInternalProvisionLocator = "css=input[name='food-use-provide-in-house']";
-		String foodInternalCookingLocator = "css=input[name='food-use-cook-for-on-site']";
-		String foodExternalCookingLocator = "css=input[name='food-use-cook-for-external']";
-
-		server.checkbox(foodRedistributionLocator, true);
-		server.checkbox(foodExternalProvisionLocator, true);
-		server.checkbox(foodInternalProvisionLocator, true);
-		server.checkbox(foodInternalCookingLocator, true);
-		server.checkbox(foodExternalCookingLocator, true);
-				
 		server.waitForActionToComplete();
 
 		server.click(buttonSaveEnabledLocator);

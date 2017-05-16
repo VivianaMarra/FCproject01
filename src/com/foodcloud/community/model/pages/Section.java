@@ -3,6 +3,7 @@ package com.foodcloud.community.model.pages;
 import java.util.Iterator;
 import java.util.List;
 
+import com.foodcloud.model.dialogs.CheckboxField;
 import com.foodcloud.model.dialogs.InputTextField;
 import com.foodcloud.model.dialogs.SelectField;
 import com.foodcloud.model.pages.Menu;
@@ -11,6 +12,10 @@ import com.foodcloud.test.server.FCTestServer;
 
 /**
  * This class is mapping in the Auto test project a Section in the organization page for Community model.
+ * Main sections in the Community Creation page are:  ( then Profile, Location, 
+ * Because each section should contain at least one field the default constructor has been removed. 
+ *  
+ * SuperClass: Menu
  *  
  * @author Viviana
  *
@@ -20,11 +25,6 @@ public class Section extends Menu {
 	// inheriting fields map from superclass
 	private String sectionName;
 
-	//not used
-//	public Section(FCTestNavigator navigator, String name) {
-//		super(navigator);
-//		this.sectionName = name;
-//	}
 
 	/**
 	 * Creates a new section with a name and a list of fields
@@ -36,7 +36,7 @@ public class Section extends Menu {
 	public Section(FCTestNavigator navigator, String name, List<DataTriplet> fieldList) {
 		super(navigator);
 		this.sectionName = name;
-		//addFieldData(data);
+		//populating field list
 		addFieldList(fieldList);
 	}
 
@@ -62,14 +62,13 @@ public class Section extends Menu {
 
 			switch (data.getType()) {
 			case TEXT:
-				// getFieldList().put(key, value)
 				addField(fieldName, new InputTextField(nav, data.getLocator()));
 				break;
 			case SELECT:
 				addField(fieldName, new SelectField(nav, data.getLocator()));
 				break;
 			case CHECKBOX:
-				addField(fieldName, new SelectField(nav, data.getLocator()));
+				addField(fieldName, new CheckboxField(nav, data.getLocator()));
 				break;
 
 			default:
