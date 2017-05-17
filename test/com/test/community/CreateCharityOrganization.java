@@ -88,7 +88,14 @@ public class CreateCharityOrganization {
 		String today="20170516";
 				
 		OrganizationPage orgPage = new OrganizationPage(nav);
-		orgPage.getCreateSection().setField(OrganizationPage.ORGANIZATION_NAME,"Test Charity 5 " + today);
+		orgPage.addSection(
+				new Section(nav,"Create org", 
+						new ArrayList<DataTriplet>(){{
+							add(new DataTriplet("Organization Name", DataTriplet.FieldType.TEXT, "css=section#edit-org:not([class='ng-hide']) input[ng-model='org.name']"));
+						}} ));
+	
+			
+		orgPage.getSection("Create org").setField("Organization Name", "Test Charity 5 " + today);	
 		orgPage.clickContinue();
 		
 		server.waitForActionToComplete();
@@ -104,7 +111,7 @@ public class CreateCharityOrganization {
 	@Test(priority = 4)
 	public void charityTemplate_FillMandatoryFields() {
 
-		List<DataTriplet> profileList = new ArrayList();
+		List<DataTriplet> profileList = new ArrayList<DataTriplet>();
 		profileList.add(new DataTriplet("Description" , DataTriplet.FieldType.TEXT, "css=textarea[name='description']")); 
 		profileList.add(new DataTriplet("Website" , DataTriplet.FieldType.TEXT, "css=input[name='website']")); 
 		

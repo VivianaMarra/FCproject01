@@ -27,9 +27,11 @@ public class Menu {
 	 * @param value - String identifying the value 
 	 */
 	public void setField(String fieldName, String value) {
-		fields.get(fieldName).setField(value);
-	}
-	
+		System.out.println("Attempting set: " + fieldName + " With Value: " + value);
+		if (value != null) {
+			fields.get(fieldName).setField(value);
+		}
+	}	
 
 	/**
 	 * Adds a field in the field list

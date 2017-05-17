@@ -12,8 +12,13 @@ import com.foodcloud.test.server.FCTestServer;
 
 /**
  * This class is mapping in the Auto test project a Section in the organization page for Community model.
- * Main sections in the Community Creation page are:  ( then Profile, Location, 
- * Because each section should contain at least one field the default constructor has been removed. 
+ * Main sections in the Community Creation page are:  
+ * 		- Organization Template 
+ * 		- Create organization
+ * 		( then Profile, Location, Contact, Food Use depending on template)
+ * Because each section should contain at least one field, the default constructor has been removed. 
+ * Official constructor: 
+ *  			section (FCTestNavigator navigator, String sectionName, List<DataTriplet> fields) 
  *  
  * SuperClass: Menu
  *  
@@ -38,6 +43,13 @@ public class Section extends Menu {
 		this.sectionName = name;
 		//populating field list
 		addFieldList(fieldList);
+	}
+
+	
+	public Section(FCTestNavigator nav, SectionData section) {
+		super(nav);
+		this.sectionName = section.getName();
+		addFieldList(section.getFields());
 	}
 
 	/**
@@ -84,7 +96,7 @@ public class Section extends Menu {
 	 * @return Section object (updated)
 	 */
 	public Section addFieldList(List<DataTriplet> dataList) {
-		for (Iterator iterator = dataList.iterator(); iterator.hasNext();) {
+		for (Iterator<DataTriplet> iterator = dataList.iterator(); iterator.hasNext();) {
 			DataTriplet currentData = (DataTriplet) iterator.next();
 	
 			addFieldData(currentData);
